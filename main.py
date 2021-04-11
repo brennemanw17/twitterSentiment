@@ -1,4 +1,4 @@
-from tweets import *
+from tweetscraper.tweets import *
 
-tweetScrape("$fb", "2021-04-05", "2021-04-06")
+tweetScrape("$fb", "2021-04-06", "2021-04-07")
 

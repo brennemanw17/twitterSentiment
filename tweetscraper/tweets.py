@@ -1,10 +1,10 @@
-import apiconfig
+import tweetscraper.apiconfig
 import tweepy as tw
 import time
 import csv
 
-auth = tw.OAuthHandler(apiconfig.consumer_key, apiconfig.consumer_secret)
-auth.set_access_token(apiconfig.access_token, apiconfig.access_token_secret)
+auth = tw.OAuthHandler(tweetscraper.apiconfig.consumer_key, tweetscraper.apiconfig.consumer_secret)
+auth.set_access_token(tweetscraper.apiconfig.access_token, tweetscraper.apiconfig.access_token_secret)
 api = tw.API(auth, wait_on_rate_limit=True)
 
 def tweetScrape(keyword, dfrom, dto):
