@@ -1,7 +1,4 @@
-
-twitterapi = {
-    "consumer_key":"yourkeyhere",
-    "consumer_secret":"yourkeyhere",
-    "access_token":"yourkeyhere",
-    "access_token_secret":"yourkeyhere",
-}
+consumer_key = ""
+consumer_secret = ""
+access_token = ""
+access_token_secret = ""
