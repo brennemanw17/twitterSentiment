@@ -7,6 +7,8 @@ import csv
 import json
 
 
+# PreProcceses tweets contained in given list of documents docs
+# saves preprocessed tweets to a single json file with the name fname
 def processtweets(docs, fname):
     temp = { }
     for doc in docs:
@@ -24,6 +26,7 @@ def processtweets(docs, fname):
     print("completed")
 
 
+# Reads all words in given docs and produces frequency distrobution
 def termfreq(doc):
     terms = { }
     with open(doc, 'r', encoding='utf-8') as json_file:
@@ -38,6 +41,9 @@ def termfreq(doc):
     return terms
 
 
+# dataSet represents one set of data (ie one processed json file)
+# dataSet is initialized with a list of docs then calling processtweets
+# to compile and preprocess all the docs into one json file then calls termfreq
 class dataSet:
     def __init__(self, filenames):
         self.filenames = filenames
@@ -47,5 +53,16 @@ class dataSet:
 
         self.vocab = termfreq(self.processedName)
 
+"""
+def load(directory):
+    documapped = {}
+    with os.scandir(directory) as files:
+        for file in files:
+            temp = file.name.partition("-")[0]
+            if temp in documapped:
+                documapped[temp].append(file.name)
+            else:
+                documapped[temp] = [file.name]
+    return documapped"""
 
 
