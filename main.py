@@ -37,6 +37,7 @@ testSet = "fb2021processed.json"
 
 # print(positiveSet.vocab)
 
+#------------------------------------------------------------------------------------------------------------------------------
 
 def buildVocabList(trainingSet):
     all_words = []
@@ -49,6 +50,7 @@ def buildVocabList(trainingSet):
 
     return word_features
 
+#------------------------------------------------------------------------------------------------------------------------------
 
 def getfeatures(tweet):
     tweet_words = set(tweet)
@@ -58,7 +60,7 @@ def getfeatures(tweet):
         features['contains(%s)' % word] = (word in tweet_words)
 
     return features
-
+#----------------------------------------------------------------------------------------------------------------------------
 print("Building vocabulary.")
 word_features = buildVocabList(trainingSet)
 

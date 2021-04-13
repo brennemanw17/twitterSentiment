@@ -2,8 +2,9 @@
 Topic based Tweet collection and sentiment analysis
 
 ## Requirements: 
-
+pip3 install nltk
 Python 3 
+
 
 
 ## Functionality
