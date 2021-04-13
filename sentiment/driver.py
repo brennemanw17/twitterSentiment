@@ -1,11 +1,21 @@
 # Written by William Sam Brenneman
 # CSCI 4130 @ ECU
+
 import os
 from sentiment.tokenizer import *
 import csv
 import json
 
-def run(docs, fname):
+
+fbFiles = ["fb2021-04-11-11-10-03.csv", "fb2021-04-11-11-35-10.csv", "fb2021-04-11-11-40-58.csv",
+           "fb2021-04-11-11-41-24.csv", "fb2021-04-11-12-08-30.csv"]
+amznFiles = ["AMZN2021-04-11-11-42-47.csv", "AMZN2021-04-11-11-43-23.csv", "AMZN2021-04-11-11-43-39.csv",
+             "AMZN2021-04-11-11-44-00.csv", "AMZN2021-04-11-12-10-23.csv"]
+tslaFiles = ["TSLA2021-04-11-12-07-07.csv", "TSLA2021-04-11-12-07-23.csv", "TSLA2021-04-11-12-07-36.csv",
+             "TSLA2021-04-11-12-07-51.csv", "TSLA2021-04-11-12-08-06.csv"]
+
+
+def processtweets(docs, fname):
     temp = { }
     for doc in docs:
         filename = "preproccesed/analyzed" + doc + ".json"
@@ -21,33 +31,29 @@ def run(docs, fname):
         json.dump(temp, outfile, indent=4)
     print("completed")
 
-"""
-    with open(fname, 'a', encoding="utf-8") as csvFile:
-        csvWriter = csv.writer(csvFile)
-        for key in temp:
-            csvWriter.writerow([key, temp[key]])"""
 
-
-
-
-def termFreq(doc):
+def termfreq(doc):
     terms = { }
     with open(doc, 'r', encoding='utf-8') as json_file:
-        json_reader = json.load(json_file)
-        print(json_reader)
+        data = json.load(json_file)
 
-"""
-        for row in json_reader:
-            if row:
-                temp = row[1]
-                print(temp)
-                print(temp[2])
-                for word in temp:
-                    if word in terms:
-                        terms[word] = terms[word] + 1
-                    else:
-                        terms[word] = 1
-    return terms"""
+        for key in data:
+            for word in data[key]:
+                if word in terms:
+                    terms[word] = terms[word]+1
+                else:
+                    terms[word] = 1
+    return terms
+
+
+class dataSet:
+    def __init__(self, filenames):
+        self.filenames = filenames
+        self.processedName = "preproccesed/" + filenames[0].partition("-")[0] + "processed.json"
+
+        processtweets(self.filenames, self.processedName)
+
+        self.vocab = termfreq(self.processedName)
 
 
 
