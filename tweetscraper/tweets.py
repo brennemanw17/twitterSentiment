@@ -10,6 +10,7 @@ auth = tw.OAuthHandler(tweetscraper.apiconfig.consumer_key, tweetscraper.apiconf
 auth.set_access_token(tweetscraper.apiconfig.access_token, tweetscraper.apiconfig.access_token_secret)
 api = tw.API(auth, wait_on_rate_limit=True)
 
+
 def tweetScrape(keyword, dfrom, dto, amount):
     keyname = keyword.replace('$', '')
     keyname = keyname.replace(' ', '')

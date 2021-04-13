@@ -1,16 +1,17 @@
 # Written by William Sam Brenneman
 # CSCI 4130 @ ECU
 
-import os
-from sentiment.tokenizer import *
 import csv
 import json
+import nltk
+
+from sentiment.tokenizer import *
 
 
 # PreProcceses tweets contained in given list of documents docs
 # saves preprocessed tweets to a single json file with the name fname
 def processtweets(docs, fname):
-    temp = { }
+    temp = {}
     for doc in docs:
         filename = "preproccesed/analyzed" + doc + ".json"
         doc = "data/" + doc
@@ -23,19 +24,19 @@ def processtweets(docs, fname):
                                                                  getstopwords("sentiment/stopwords.txt")))
     with open(fname, "w", encoding="utf-8") as outfile:
         json.dump(temp, outfile, indent=4)
-    print("completed")
+    print("completed process tweets")
 
 
 # Reads all words in given docs and produces frequency distrobution
 def termfreq(doc):
-    terms = { }
+    terms = {}
     with open(doc, 'r', encoding='utf-8') as json_file:
         data = json.load(json_file)
 
         for key in data:
             for word in data[key]:
                 if word in terms:
-                    terms[word] = terms[word]+1
+                    terms[word] = terms[word] + 1
                 else:
                     terms[word] = 1
     return terms
@@ -53,6 +54,8 @@ class dataSet:
 
         self.vocab = termfreq(self.processedName)
 
+
+
 """
 def load(directory):
     documapped = {}
@@ -64,5 +67,3 @@ def load(directory):
             else:
                 documapped[temp] = [file.name]
     return documapped"""
-
-
