@@ -56,3 +56,4 @@ def porterstemmer(list):
         newlist.append(ps.stem(x))
     return newlist
 
+
