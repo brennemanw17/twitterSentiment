@@ -1,13 +1,10 @@
 from tweetscraper.tweets import *
 
-# how to call tweet scraper
-# tweetScrape("$AMC", "2021-04-11", "0", 300)
-
 from sentiment.driver import *
 
 # ------------- TEST SETS
-positiveSet = dataSet(["positiveSentiment.csv"])
-negativeSet = dataSet(["negativeSentiment.csv"])
+positiveSet = dataSet(["positive-Sentiment.csv"])
+negativeSet = dataSet(["negative-Sentiment.csv"])
 
 fbFiles = ["fb2021-04-11-11-10-03.csv", "fb2021-04-11-11-35-10.csv", "fb2021-04-11-11-40-58.csv",
            "fb2021-04-11-11-41-24.csv", "fb2021-04-11-12-08-30.csv"]
@@ -18,6 +15,10 @@ tslaFiles = ["TSLA2021-04-11-12-07-07.csv", "TSLA2021-04-11-12-07-23.csv", "TSLA
 
 # ------------- Example function calls
 
+# --- how to call tweet scraper
+# tweetScrape("$AMC", "2021-04-11", "0", 300)
+
+# --- Analysis functions
 # process(fbFiles, "preproccesed/fb2021processed.json")
 
 # print(termfreq("preproccesed/fb2021processed.json"))
