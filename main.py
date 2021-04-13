@@ -24,9 +24,11 @@ tslaFiles = ["TSLA2021-04-11-12-07-07.csv", "TSLA2021-04-11-12-07-23.csv", "TSLA
 
 
 
-trainingSet = "positiveprocessed.json"
+trainingSet = [('good', 'positive'), ('bad', 'negative'), ('advantag', 'positive'), ('dip', 'negative')]
+    #"positiveprocessed.json"
 
 testSet = "fb2021processed.json"
+
 # print(termfreq("preproccesed/fb2021processed.json"))
 
 # amznSet = dataSet(amznFiles)
@@ -72,6 +74,8 @@ NBayesClassifier = nltk.NaiveBayesClassifier.train(trainingFeatures)
 
 print("Results")
 NBResultsLabels = [NBayesClassifier.classify(getfeatures(tweet[0])) for tweet in testSet]
+print(testSet)
+
 
 print(NBResultsLabels)
 print("")
