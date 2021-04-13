@@ -20,4 +20,6 @@ amznSet = dataSet(amznFiles)
 fbSet = dataSet(fbFiles)
 tslaSet = dataSet(tslaFiles)
 
+dataSets = [amznSet, fbSet, tslaSet]
+
 print(fbSet.vocab)
