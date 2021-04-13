@@ -3,8 +3,8 @@ import nltk
 from sentiment.driver import *
 
 # ------------- TEST SETS
-positiveSet = dataSet(["positive-Sentiment.csv"])
-negativeSet = dataSet(["negative-Sentiment.csv"])
+positiveSet = ["positive-Sentiment.csv"]
+negativeSet = ["negative-Sentiment.csv"]
 
 fbFiles = ["fb2021-04-11-11-10-03.csv", "fb2021-04-11-11-35-10.csv", "fb2021-04-11-11-40-58.csv",
            "fb2021-04-11-11-41-24.csv", "fb2021-04-11-12-08-30.csv"]
@@ -21,15 +21,12 @@ tslaFiles = ["TSLA2021-04-11-12-07-07.csv", "TSLA2021-04-11-12-07-23.csv", "TSLA
 
 # --- Analysis functions
 
-tweetProcessor = dataSet(fbFiles)
-
-preprocessedTrainingSet = tweetProcessor.__init__(fbFiles)
-preprocessedTestSet = tweetProcessor.__init__(positiveSet)
 
 
-# process(fbFiles, "preproccesed/fb2021processed.json")
 
+trainingSet = "positiveprocessed.json"
 
+testSet = "fb2021processed.json"
 # print(termfreq("preproccesed/fb2021processed.json"))
 
 # amznSet = dataSet(amznFiles)
@@ -41,10 +38,10 @@ preprocessedTestSet = tweetProcessor.__init__(positiveSet)
 # print(positiveSet.vocab)
 
 
-def buildVocabList(processedTrainingData):
+def buildVocabList(trainingSet):
     all_words = []
 
-    for (words, sentiment) in processedTrainingData:
+    for words in trainingSet:
         all_words.extend(words)
 
     wordlist = nltk.FreqDist(all_words)
@@ -63,16 +60,16 @@ def getfeatures(tweet):
     return features
 
 print("Building vocabulary.")
-word_features = buildVocabList(preprocessedTrainingSet)
+word_features = buildVocabList(trainingSet)
 
 print("Classifying features.")
-trainingFeatures = nltk.classify.apply_features(getfeatures(preprocessedTrainingSet))
+trainingFeatures = nltk.classify.apply_features(getfeatures, trainingSet)
 
 print("Running Data on Naive Bayes Classifier")
 NBayesClassifier = nltk.NaiveBayesClassifier.train(trainingFeatures)
 
 print("Results")
-NBResultsLabels = [NBayesClassifier.classify(getfeatures(tweet[0])) for tweet in preprocessedTestSet]
+NBResultsLabels = [NBayesClassifier.classify(getfeatures(tweet[0])) for tweet in testSet]
 
 print(NBResultsLabels)
 print("")
