@@ -94,7 +94,7 @@ def getfeatures(tweet):
     features = {}
 
     for word in word_features:
-        features['contains(%s)' % word] = (word in tweet_words)
+        features[word] = (word in tweet_words)
 
     # print(features)
 
@@ -110,17 +110,17 @@ def trainfeat():
 
     for word in word_features:
         if word in pos:
-            features['contains(%s)' % word] = True
+            features[word] = True
         else:
-            features['contains(%s)' % word] = False
+            features[word] = False
 
     total.append((features, "positive"))
 
     for word in word_features:
         if word in neg:
-            feature['contains(%s)' % word] = True
+            feature[word] = True
         else:
-            feature['contains(%s)' % word] = False
+            feature[word] = False
 
     total.append((feature, "negative"))
 
@@ -138,13 +138,15 @@ print(word_features)
 print("Classifying features..")
 #trainingFeatures = nltk.classify.apply_features(getfeatures, trainingSet, labeled=True)
 trainingFeatures = trainfeat()
+print(trainingFeatures)
 
 # Trains the model based on the features
 print("Training Data..")
 NBayesClassifier = nltk.NaiveBayesClassifier.train(trainingFeatures)
+NBayesClassifier.show_most_informative_features()
 
 print("Results:")
-NBResultsLabels = [NBayesClassifier.classify(getfeatures(tweet[0])) for tweet in testSet]
+NBResultsLabels = [NBayesClassifier.classify(getfeatures(tweet)) for tweet in testSet]
 
 print(NBResultsLabels)
 print("")
