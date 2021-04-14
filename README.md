@@ -20,6 +20,8 @@ The functionality of our implementation is to:
 
 4) Measure accuracy scores based on precision and recall
 
+Example Analysis with Test Data:
+![Demo](https://i.imgur.com/gFNppVQ.png)
 
 ## Running:
 
