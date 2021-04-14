@@ -4,6 +4,8 @@ Topic based Tweet collection and sentiment analysis
 ## Requirements: 
 pip3 install nltk
 
+pip3 install tweepy
+
 Python 3 
 
 
