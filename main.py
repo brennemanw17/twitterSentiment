@@ -27,15 +27,14 @@ tslaFiles = ["TSLA2021-04-11-12-07-07.csv", "TSLA2021-04-11-12-07-23.csv", "TSLA
 # Test data set placeholder
 testData = dataSet(["947-negatives.csv"])
 
+positiveSet = dataSet(["positive-Sentiment.csv"])
+negativeSet = dataSet(["negative-Sentiment.csv"])
 
 # --- Analysis functions
 
 # Converts the training CSV's into a usable format for our program
 def vocabtolist():
     terms = []
-    positiveSet = dataSet(["positive-Sentiment.csv"])
-    negativeSet = dataSet(["negative-Sentiment.csv"])
-
     for key in positiveSet.vocab:
         tup = (key, "positive")
         terms.append(tup)
@@ -102,17 +101,43 @@ def getfeatures(tweet):
     return features
 
 
+def trainfeat():
+    pos = positiveSet.vocab
+    neg = negativeSet.vocab
+    features = {}
+    feature = {}
+    total = []
+
+    for word in word_features:
+        if word in pos:
+            features['contains(%s)' % word] = True
+        else:
+            features['contains(%s)' % word] = False
+
+    total.append((features, "positive"))
+
+    for word in word_features:
+        if word in neg:
+            feature['contains(%s)' % word] = True
+        else:
+            feature['contains(%s)' % word] = False
+
+    total.append((feature, "negative"))
+
+    return total
+
 # ----------------------------------------------------------------------------------------------------------------------------
 
 # Builds the vocabulary list
 print("Building vocabulary bank..")
 word_features = buildVocabList(trainingSet)
-# print(word_features)
+print(word_features)
 
 
 # Classifies features within the training set
 print("Classifying features..")
-trainingFeatures = nltk.classify.apply_features(getfeatures, trainingSet)
+#trainingFeatures = nltk.classify.apply_features(getfeatures, trainingSet, labeled=True)
+trainingFeatures = trainfeat()
 
 # Trains the model based on the features
 print("Training Data..")
@@ -127,6 +152,6 @@ print("")
 # Prints the positive/negative sentiment depending on however many postive/negative tweets there are out of the
 # total number of tweets
 if NBResultsLabels.count('positive') > NBResultsLabels.count('negative'):
-    print("Positive Sentiment" + str(100 * NBResultsLabels.count('positive') / len(NBResultsLabels)) + "%")
+    print("Positive Sentiment " + str(100 * NBResultsLabels.count('positive') / len(NBResultsLabels)) + "%")
 else:
     print("Negative Sentiment " + str(100 * NBResultsLabels.count('negative') / len(NBResultsLabels)) + "%")
