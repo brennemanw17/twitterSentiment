@@ -2,6 +2,7 @@ from tweetscraper.tweets import *
 import nltk
 from sentiment.driver import *
 
+# ------------- TEST SETS
 positiveSet = ["positive-Sentiment.csv"]
 negativeSet = ["negative-Sentiment.csv"]
 
@@ -21,24 +22,6 @@ tslaFiles = ["TSLA2021-04-11-12-07-07.csv", "TSLA2021-04-11-12-07-23.csv", "TSLA
 
 # --- Analysis functions
 
-def vocabtolist():
-
-    terms = []
-    positiveSet = dataSet(["positive-Sentiment.csv"])
-    negativeSet = dataSet(["negative-Sentiment.csv"])
-
-
-    for key in positiveSet.vocab:
-        tup = (key, "positive")
-        terms.append(tup)
-
-    for key in negativeSet.vocab:
-        tup = (key, "negative")
-        terms.append(tup)
-
-    return terms
-
-
 def jsontolist(doc):
     terms = []
     with open(doc, 'r', encoding='utf-8') as json_file:
@@ -48,15 +31,11 @@ def jsontolist(doc):
     return terms
 
 
-
-
-trainingSet = vocabtolist()
+trainingSet = [('good', 'positive'), ('dip', 'negative')]
 # "positiveprocessed.json"
 
+testSet = jsontolist("preproccesed/fb2021processed.json")
 
-#testSet = jsontolist("preproccesed/fb2021processed.json")
-testSet = jsontolist("preproccesed/AMZN2021processed.json")
-#testSet = jsontolist("preproccesed/TSLA2021processed.json")
 
 # print(termfreq("preproccesed/fb2021processed.json"))
 
@@ -65,7 +44,8 @@ testSet = jsontolist("preproccesed/AMZN2021processed.json")
 # tslaSet = dataSet(tslaFiles)
 
 # dataSets = [amznSet, fbSet, tslaSet]
-#print(positiveSet.vocab)
+
+# print(positiveSet.vocab)
 
 # ------------------------------------------------------------------------------------------------------------------------------
 
@@ -103,8 +83,12 @@ print(word_features)
 print("Classifying features.")
 trainingFeatures = nltk.classify.apply_features(getfeatures, trainingSet)
 
+
+
 print("Running Data on Naive Bayes Classifier:")
 NBayesClassifier = nltk.NaiveBayesClassifier.train(trainingFeatures)
+
+
 
 print("Results")
 NBResultsLabels = [NBayesClassifier.classify(getfeatures(tweet)) for tweet in testSet]
@@ -116,3 +100,4 @@ if NBResultsLabels.count('positive') > NBResultsLabels.count('negative'):
     print("NB Result Positive Sentiment " + str(100 * NBResultsLabels.count('positive') / len(NBResultsLabels)) + "%")
 else:
     print("NB Result Negative Sentiment " + str(100 * NBResultsLabels.count('negative') / len(NBResultsLabels)) + "%")
+
