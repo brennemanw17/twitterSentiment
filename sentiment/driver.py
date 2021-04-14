@@ -20,8 +20,7 @@ def processtweets(docs, fname):
 
             for row in csv_reader:
                 if row:
-                    temp[row[0]] = porterstemmer(stopwordremover(tokenizer(row[1]),
-                                                                 getstopwords("sentiment/stopwords.txt")))
+                    temp[row[0]] = stopwordremover(tokenizer(row[1]), getstopwords("sentiment/stopwords.txt"))
     with open(fname, "w", encoding="utf-8") as outfile:
         json.dump(temp, outfile, indent=4)
     print("completed process tweets")
