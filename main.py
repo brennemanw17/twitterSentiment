@@ -13,6 +13,7 @@ amznFiles = ["AMZN2021-04-11-11-42-47.csv", "AMZN2021-04-11-11-43-23.csv", "AMZN
 tslaFiles = ["TSLA2021-04-11-12-07-07.csv", "TSLA2021-04-11-12-07-23.csv", "TSLA2021-04-11-12-07-36.csv",
              "TSLA2021-04-11-12-07-51.csv", "TSLA2021-04-11-12-08-06.csv"]
 
+
 # ------------- Example function calls
 
 # --- how to call tweet scraper
@@ -21,13 +22,20 @@ tslaFiles = ["TSLA2021-04-11-12-07-07.csv", "TSLA2021-04-11-12-07-23.csv", "TSLA
 
 # --- Analysis functions
 
+def jsontolist(doc):
+    terms = []
+    with open(doc, 'r', encoding='utf-8') as json_file:
+        data = json.load(json_file)
+        for key in data:
+            terms.append(data[key])
+    return terms
 
 
+trainingSet = [('good', 'positive'), ('dip', 'negative')]
+# "positiveprocessed.json"
 
-trainingSet = [('good', 'positive'), ('bad', 'negative'), ('advantag', 'positive'), ('dip', 'negative')]
-    #"positiveprocessed.json"
+testSet = jsontolist("preproccesed/fb2021processed.json")
 
-testSet = "fb2021processed.json"
 
 # print(termfreq("preproccesed/fb2021processed.json"))
 
@@ -39,7 +47,7 @@ testSet = "fb2021processed.json"
 
 # print(positiveSet.vocab)
 
-#------------------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------------
 
 def buildVocabList(trainingSet):
     all_words = []
@@ -52,7 +60,8 @@ def buildVocabList(trainingSet):
 
     return word_features
 
-#------------------------------------------------------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------------------------------------------------------
 
 def getfeatures(tweet):
     tweet_words = set(tweet)
@@ -62,25 +71,33 @@ def getfeatures(tweet):
         features['contains(%s)' % word] = (word in tweet_words)
 
     return features
-#----------------------------------------------------------------------------------------------------------------------------
+
+
+# ----------------------------------------------------------------------------------------------------------------------------
+
+
 print("Building vocabulary.")
 word_features = buildVocabList(trainingSet)
+print(word_features)
 
 print("Classifying features.")
 trainingFeatures = nltk.classify.apply_features(getfeatures, trainingSet)
 
-print("Running Data on Naive Bayes Classifier")
+
+
+print("Running Data on Naive Bayes Classifier:")
 NBayesClassifier = nltk.NaiveBayesClassifier.train(trainingFeatures)
 
-print("Results")
-NBResultsLabels = [NBayesClassifier.classify(getfeatures(tweet[0])) for tweet in testSet]
-print(testSet)
 
+
+print("Results")
+NBResultsLabels = [NBayesClassifier.classify(getfeatures(tweet)) for tweet in testSet]
 
 print(NBResultsLabels)
 print("")
 
 if NBResultsLabels.count('positive') > NBResultsLabels.count('negative'):
-    print("NB Result Positive Sentiment " + str(100 * NBResultsLabels.count('positive') / len(NBResultsLabels))+"%")
+    print("NB Result Positive Sentiment " + str(100 * NBResultsLabels.count('positive') / len(NBResultsLabels)) + "%")
 else:
-    print("NB Result Negative Sentiment " + str(100 * NBResultsLabels.count('negative') / len(NBResultsLabels))+"%")
+    print("NB Result Negative Sentiment " + str(100 * NBResultsLabels.count('negative') / len(NBResultsLabels)) + "%")
+
