@@ -8,7 +8,7 @@ Python 3
 
 
 
-## Functionality
+## Functionality:
 The functionality of our implementation is to: 
 1) Collect dataset from twitter regarding Amazon, Tesla, and Facebook stocks 
 
@@ -19,5 +19,11 @@ The functionality of our implementation is to:
 4) Measure accuracy scores based on precision and recall
 
 
+## Running:
 
-
+##### TweetScraper:
+To run the tweetScraper use:
+```
+python3 scrapeTweets.py
+```
+From there you will be prompted to fill out the needed information. Once done the scraper will print "completed" and your scraped tweets will be saved in the data directory.
