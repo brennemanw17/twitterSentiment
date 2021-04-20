@@ -15,15 +15,24 @@ def processtweets(docs, fname):
     for doc in docs:
         filename = "preproccesed/analyzed" + doc + ".json"
         doc = "data/" + doc
-        with open(doc, 'r', encoding='utf-8') as csv_file:
+        with open(doc, 'r', encoding='utf-8-sig') as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=',')
 
             for row in csv_reader:
                 if row:
                     temp[row[0]] = stopwordremover(tokenizer(row[1]), getstopwords("sentiment/stopwords.txt"))
+                    i = 2
+                    try:
+                        while row[i]:
+                            temp[row[0]] = temp[row[0]] + stopwordremover(tokenizer(row[i]), getstopwords("sentiment/stopwords.txt"))
+                            i = i+1
+                    except IndexError:
+                        pass
+
     with open(fname, "w", encoding="utf-8") as outfile:
         json.dump(temp, outfile, indent=4)
     print("completed process tweets")
+
 
 # Reads all words in given docs and produces frequency distrobution
 def termfreq(doc):
