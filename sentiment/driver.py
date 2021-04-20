@@ -20,11 +20,11 @@ def processtweets(docs, fname):
 
             for row in csv_reader:
                 if row:
-                    temp[row[0]] = stopwordremover(tokenizer(row[1]), getstopwords("sentiment/stopwords.txt"))
+                    temp[row[0]] = porterstemmer(stopwordremover(tokenizer(row[1]), getstopwords("sentiment/stopwords.txt")))
                     i = 2
                     try:
                         while row[i]:
-                            temp[row[0]] = temp[row[0]] + stopwordremover(tokenizer(row[i]), getstopwords("sentiment/stopwords.txt"))
+                            temp[row[0]] = temp[row[0]] + porterstemmer(stopwordremover(tokenizer(row[i]), getstopwords("sentiment/stopwords.txt")))
                             i = i+1
                     except IndexError:
                         pass
