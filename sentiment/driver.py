@@ -25,7 +25,6 @@ def processtweets(docs, fname):
         json.dump(temp, outfile, indent=4)
     print("completed process tweets")
 
-
 # Reads all words in given docs and produces frequency distrobution
 def termfreq(doc):
     terms = {}
